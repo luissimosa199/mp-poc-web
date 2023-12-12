@@ -8,11 +8,13 @@ export default function Home({ params }: { params: { username: string } }) {
     return null;
   }
 
+  const name = decodeURIComponent(params.username);
+
   return (
     <main className="">
       <MainComponent
         user_agent_id={userAgentCookie}
-        username={params.username}
+        username={name}
       />
     </main>
   );
