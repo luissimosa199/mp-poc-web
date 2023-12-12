@@ -1,6 +1,7 @@
 "use client";
 
 import PaymentCard from "@/components/PaymentCard";
+import PaymentCardSkeleton from "@/components/PaymentCardSkeleton";
 import { PaymentSearchResult } from "mercadopago/dist/clients/payment/search/types";
 import React from "react";
 import useSWR, { Fetcher } from "swr";
@@ -17,7 +18,19 @@ const Pagos = () => {
       <header className="bg-blue-600 text-white w-full py-4 px-6 flex justify-center items-center mb-2">
         <h1 className="text-2xl font-bold">Pagos</h1>
       </header>
-      {isLoading && <p>Cargando...</p>}
+      {isLoading && (
+        <ul>
+          {[...Array(5)].map((_, idx) => (
+            <li
+              key={idx}
+              className="flex justify-center"
+            >
+              <PaymentCardSkeleton />
+            </li>
+          ))}
+        </ul>
+      )}
+
       {data && (
         <ul className="">
           {data.map((e) => {
