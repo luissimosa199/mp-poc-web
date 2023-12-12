@@ -1,4 +1,6 @@
+import { paymentType } from "@/utils/PaymentType";
 import { parseDate } from "@/utils/parseDate";
+import { paymentMethods } from "@/utils/paymentMethods";
 import { PaymentSearchResult } from "mercadopago/dist/clients/payment/search/types";
 import React from "react";
 
@@ -19,20 +21,20 @@ const PaymentCard = ({ payment }: { payment: PaymentSearchResult }) => {
           {payment.transaction_amount}
         </p>
         <p className="text-black">
-          <span className="font-bold">Fecha aprobada:</span>{" "}
+          <span className="font-bold">Fecha:</span>{" "}
           <span>{parseDate(payment.date_approved as string)}</span>
         </p>
         <p className="text-black">
           <span className="font-bold">Tipo de pago:</span>{" "}
-          <span>{payment.payment_type_id}</span>
+          <span>{paymentMethods[payment.payment_method_id as string]}</span>
         </p>
         <p className="text-black">
-          <span className="font-bold">Description:</span>{" "}
+          <span className="font-bold">Descripción:</span>{" "}
           <span>{payment.description}</span>
         </p>
         <p className="text-black">
           <span className="font-bold">Medio de pago:</span>{" "}
-          <span>{payment.payment_method_id}</span>
+          <span>{paymentType[payment.payment_method_id as string]}</span>
         </p>
       </div>
     </div>
