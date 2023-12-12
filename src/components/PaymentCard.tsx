@@ -1,4 +1,4 @@
-import { paymentType } from "@/utils/PaymentType";
+import { paymentType } from "@/utils/paymentType";
 import { parseDate } from "@/utils/parseDate";
 import { paymentMethods } from "@/utils/paymentMethods";
 import { PaymentSearchResult } from "mercadopago/dist/clients/payment/search/types";
