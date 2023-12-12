@@ -32,7 +32,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// TODO: PUT METHOD
 export async function PUT(request: Request) {
   const user_agent_cookie = cookies().get("user_agent_id")?.value;
 
@@ -43,7 +42,6 @@ export async function PUT(request: Request) {
   }
 
   try {
-    // Update the UserAgent with the subscription
     await MpPushUserAgentModel.findByIdAndUpdate(user_agent_cookie, {
       PushSubscription: subscription,
     });
@@ -52,4 +50,12 @@ export async function PUT(request: Request) {
   } catch (error) {
     return Response.json({ error: "Internal Server Error" });
   }
+}
+
+export async function GET() {
+  const user_agent_cookie = cookies().get("user_agent_id")?.value;
+
+  const user = await MpPushUserAgentModel.findById(user_agent_cookie);
+
+  return Response.json({ isSubscribed: !!user.PushSubscription });
 }

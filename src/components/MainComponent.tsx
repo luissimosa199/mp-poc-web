@@ -3,6 +3,11 @@
 import useServiceWorker from "@/hooks/useServiceWorkers";
 import useTrackUserAgent from "@/hooks/useTrackUserAgent";
 import React from "react";
+import useSWR from "swr";
+import Header from "./Header";
+import Panel from "./Panel";
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const MainComponent = ({
   user_agent_id,
@@ -16,7 +21,9 @@ const MainComponent = ({
   const { requestNotificationPermission, unsubscribeFromNotifications } =
     useServiceWorker("/service-worker.js", username);
 
-  const isSubscribed = false;
+  const { data, isLoading } = useSWR(`api/notifications`, fetcher);
+
+  const isSubscribed = data.isSubscribed;
 
   const handleClick = isSubscribed
     ? unsubscribeFromNotifications
@@ -24,20 +31,12 @@ const MainComponent = ({
 
   return (
     <div>
-      <div>
-        {username} ID: {user_agent_id || "INEXISTANT"}
-      </div>
-
-      <div>
-        <button
-          className="border px-4 py-2 shadow-md"
-          onClick={handleClick}
-        >
-          {isSubscribed
-            ? "Desactivar Notificaciones"
-            : "Activar Notificaciones"}
-        </button>
-      </div>
+      <Header username={username} />
+      <Panel
+        isSubscribed={isSubscribed}
+        isLoading={isLoading}
+        handleClick={handleClick}
+      />
     </div>
   );
 };
